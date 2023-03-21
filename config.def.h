@@ -3,7 +3,7 @@
 /* appearance */
 #if ROUNDED_CORNERS_PATCH
 static const unsigned int borderpx       = 0;   /* border pixel of windows */
-static const int corner_radius           = 2;
+static const int corner_radius           = 10;
 #else
 static const unsigned int borderpx       = 1;   /* border pixel of windows */
 #endif // ROUNDED_CORNERS_PATCH
@@ -22,7 +22,7 @@ static const unsigned int gappih         = 10;  /* horiz inner gap between windo
 static const unsigned int gappiv         = 5;  /* vert inner gap between windows */
 static const unsigned int gappoh         = 10;  /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov         = 5;  /* vert outer gap between windows and screen edge */
-static const int smartgaps_fact          = 1;   /* gap factor when there is only one client; 0 = no gaps, 3 = 3x outer gaps */
+static const int smartgaps_fact          = 0;   /* gap factor when there is only one client; 0 = no gaps, 3 = 3x outer gaps */
 #endif // VANITYGAPS_PATCH
 #if AUTOSTART_PATCH
 static const char autostartblocksh[]     = "autostart_blocking.sh";
@@ -156,11 +156,13 @@ static void (*bartabmonfns[])(Monitor *) = { NULL /* , customlayoutfn */ };
 #if BAR_PANGO_PATCH
 static const char font[]                 = "monospace 10";
 #else
-static const char *fonts[]               = { "Barlow:style=Regular:antialias=true:autohint:true"
+static const char *fonts[]               = { 
+                                             "Twemoji"
+                                             "Barlow:style=Regular:antialias=true:autohint:true"
                                              "JetBrainMono Nerd Mono:style=Regular:antialias=true:autohint:true"
                                            };
 #endif // BAR_PANGO_PATCH
-static const char dmenufont[]            = "monospace:size=10";
+static const char dmenufont[]            = "Barlow:style=Regular:antialias=true:autohint:true:size=15";
 
 static char c000000[]                    = "#000000"; // placeholder value
 
@@ -169,39 +171,39 @@ static char normbgcolor[]                = "#181825";
 static char normbordercolor[]            = "#444444";
 static char normfloatcolor[]             = "#db8fd9";
 
-static char selfgcolor[]                 = "#eeeeee";
-static char selbgcolor[]                 = "#005577";
-static char selbordercolor[]             = "#005577";
-static char selfloatcolor[]              = "#005577";
+static char selfgcolor[]                 = "#1e1e2e";
+static char selbgcolor[]                 = "#cba6f7";
+static char selbordercolor[]             = "#cba6f7";
+static char selfloatcolor[]              = "#cba6f7";
 
 static char titlenormfgcolor[]           = "#cdd6f4";
 static char titlenormbgcolor[]           = "#1e1e2e";
 static char titlenormbordercolor[]       = "#444444";
 static char titlenormfloatcolor[]        = "#db8fd9";
 
-static char titleselfgcolor[]            = "#eeeeee";
-static char titleselbgcolor[]            = "#005577";
-static char titleselbordercolor[]        = "#005577";
-static char titleselfloatcolor[]         = "#005577";
+static char titleselfgcolor[]            = "#1e1e2e";
+static char titleselbgcolor[]            = "#cba6f7";
+static char titleselbordercolor[]        = "#cba6f7";
+static char titleselfloatcolor[]         = "#cba6f7";
 
 static char tagsnormfgcolor[]            = "#cdd6f4";
 static char tagsnormbgcolor[]            = "#1e1e2e";
 static char tagsnormbordercolor[]        = "#444444";
 static char tagsnormfloatcolor[]         = "#db8fd9";
 
-static char tagsselfgcolor[]             = "#eeeeee";
-static char tagsselbgcolor[]             = "#005577";
-static char tagsselbordercolor[]         = "#005577";
-static char tagsselfloatcolor[]          = "#005577";
+static char tagsselfgcolor[]             = "#1e1e2e";
+static char tagsselbgcolor[]             = "#cba6f7";
+static char tagsselbordercolor[]         = "#cba6f7";
+static char tagsselfloatcolor[]          = "#cba6f7";
 
-static char hidnormfgcolor[]             = "#005577";
-static char hidselfgcolor[]              = "#227799";
+static char hidnormfgcolor[]             = "#cdd6f4";
+static char hidselfgcolor[]              = "#cba6f7";
 static char hidnormbgcolor[]             = "#222222";
 static char hidselbgcolor[]              = "#222222";
 
 static char urgfgcolor[]                 = "#cdd6f4";
 static char urgbgcolor[]                 = "#1e1e2e";
-static char urgbordercolor[]             = "#ff0000";
+static char urgbordercolor[]             = "#f38ba8";
 static char urgfloatcolor[]              = "#db8fd9";
 
 #if RENAMED_SCRATCHPADS_PATCH
@@ -397,7 +399,7 @@ static const char *layoutmenu_cmd = "layoutmenu.sh";
 
 #if COOL_AUTOSTART_PATCH
 static const char *const autostart[] = {
-	"/usr/local/bin/dwmblocks &","st-256color", NULL,
+	"/usr/local/bin/dwmblocks","st-256color", NULL,
 	NULL /* terminate */
 };
 #endif // COOL_AUTOSTART_PATCH
@@ -494,7 +496,7 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 	RULE(.class = "Gimp", .tags = 1 << 4)
-	RULE(.class = "Firefox", .tags = 1 << 7)
+	RULE(.class = "microsoft-edge-stable", .tags = 1 << 7)
   RULE(.class = "st-256color", .isterminal = 1)
 	#if RENAMED_SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
@@ -861,6 +863,7 @@ static const char *dmenucmd[] = {
 	"-nf", normfgcolor,
 	"-sb", selbgcolor,
 	"-sf", selfgcolor,
+  "-l", "10",
 	#if BAR_DMENUMATCHTOP_PATCH
 	topbar ? NULL : "-b",
 	#endif // BAR_DMENUMATCHTOP_PATCH
@@ -1343,7 +1346,7 @@ static const Button buttons[] = {
 	{ ClkStatusText,        0,                   Button1,        sigstatusbar,   {.i = 1 } },
 	{ ClkStatusText,        0,                   Button2,        sigstatusbar,   {.i = 2 } },
 	{ ClkStatusText,        0,                   Button3,        sigstatusbar,   {.i = 3 } },
-	#elif BAR_STATUSCMD_PATCH
+  #elif BAR_STATUSCMD_PATCH
 	{ ClkStatusText,        0,                   Button1,        spawn,          {.v = statuscmd } },
 	{ ClkStatusText,        0,                   Button2,        spawn,          {.v = statuscmd } },
 	{ ClkStatusText,        0,                   Button3,        spawn,          {.v = statuscmd } },
